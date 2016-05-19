@@ -1,6 +1,5 @@
 module TransferFunction exposing
   ( TransferFunction
-  , apply
   , hardlim
   , hardlims
   , purelin
@@ -11,57 +10,54 @@ module TransferFunction exposing
   , poslin
   )
 
-import NeuralSignal
+import NeuralSignal exposing ( NeuralSignal )
 
-type TransferFunction = TransferFunction (NeuralSignal.Value -> NeuralSignal.Value)
-
-apply : TransferFunction -> NeuralSignal.Value -> NeuralSignal.Value
-apply (NeuralSignal f) = f
+type alias TransferFunction = NeuralSignal -> NeuralSignal
 
 hardlim : TransferFunction
-hardlim = TransferFunction (\n ->
+hardlim n = 
   if n < 0.0 then
     0.0
   else
-    1.0)
+    1.0
     
 hardlims : TransferFunction
-hardlims = TransferFunction (\n ->
+hardlims n =
   if n < 0.0 then
     -1.0
   else
-    1.0)
+    1.0
     
 purelin : TransferFunction
-purelin = TransferFunction (\n -> n)
+purelin n = n
 
 satlin : TransferFunction
-satlin = TransferFunction (\n ->
+satlin n =
   if n < 0.0 then
     0.0
   else if n < 1.0 then
     n
   else
-    1.0)
+    1.0
     
 satlins : TransferFunction
-satlins = TransferFunction (\n ->
+satlins n =
   if n < -1.0 then
     -1.0
   else if n < 1.0
     n
   else
-    1.0)
+    1.0
     
 logsig : TransferFunction
-logsig = TransferFunction (\n -> 1.0 / (1.0 + e ^ (-n)))
+logsig n = 1.0 / (1.0 + e^(-n))
 
 tansig : TransferFunction
-tansig = TransferFunction (\n -> (e ^ n - e ^ (-n)) / (e ^ n + e ^ (-n)))
+tansig n = (e^n - e^(-n)) / (e^n + e^(-n))
 
 poslin : TransferFunction
-poslin = TransferFunction (\n ->
+poslin n =
   if n < 0.0 then
     0.0
   else 
-    n)
+    n
