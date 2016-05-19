@@ -1,4 +1,4 @@
-module Layer exposing ( Layer(..), act )
+module Layer exposing ( Layer, act )
 
 import Neuron exposing ( Neuron )
 import NeuralSignal exposing ( NeuralSignals )

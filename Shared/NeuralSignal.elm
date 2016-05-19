@@ -1,4 +1,4 @@
-module NeuralSignal exposing ( Index, Value, NeuralSignal, NeuralSignals )
+module NeuralSignal exposing ( NeuralSignal, NeuralSignals )
 
 type alias NeuralSignal = Float
 type alias NeuralSignals = List NeuralSignal

@@ -44,7 +44,7 @@ satlins : TransferFunction
 satlins n =
   if n < -1.0 then
     -1.0
-  else if n < 1.0
+  else if n < 1.0 then
     n
   else
     1.0

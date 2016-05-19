@@ -1,10 +1,8 @@
-module Neuron where
+module Neuron exposing
   ( Bias
   , Weight
   , Weights
-  , NeuralSignals
-  , Neuron
-  , createWeights
+  , Neuron(..)
   , act
   )
 
@@ -17,7 +15,7 @@ type alias Weights = List Weight
 
 type Neuron = Neuron Weights Bias TransferFunction
 
-sum : List NeuralSingal -> NeuralSignal
+sum : List NeuralSignal -> NeuralSignal
 sum = List.foldr (+) 0.0
 
 applyWeights : NeuralSignals -> Weights -> NeuralSignals
