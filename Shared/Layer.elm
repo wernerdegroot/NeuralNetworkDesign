@@ -1,4 +1,4 @@
-module Layer exposing ( Layer, act, closeEnough, convergeRecurrent )
+module Layer exposing ( Layer, act, closeEnough, convergeRecurrent, convergeRecurrentWithIntermediate )
 
 import Neuron exposing ( Neuron )
 import NeuralSignal exposing ( NeuralSignals )
@@ -27,3 +27,18 @@ convergeRecurrent input neurons =
       output
     else
       convergeRecurrent output neurons
+
+convergeRecurrentWithIntermediate' : NeuralSignals -> Layer -> List NeuralSignals -> List NeuralSignals
+convergeRecurrentWithIntermediate' input neurons acc =
+  let
+    output = act input neurons
+    accWithOutput = output :: acc
+  in
+    if closeEnough output input then
+      List.reverse accWithOutput
+    else
+      convergeRecurrentWithIntermediate' output neurons accWithOutput
+
+convergeRecurrentWithIntermediate : NeuralSignals -> Layer -> List NeuralSignals
+convergeRecurrentWithIntermediate input neurons =
+  convergeRecurrentWithIntermediate' input neurons []
