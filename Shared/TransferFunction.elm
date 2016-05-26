@@ -1,37 +1,50 @@
 module TransferFunction exposing
-  ( TransferFunction
-  , hardlim
-  , hardlims
-  , purelin
-  , satlin
-  , satlins
-  , logsig
-  , tansig
-  , poslin
+  ( TransferFunction(..)
+  , apply
   )
 
 import NeuralSignal exposing ( NeuralSignal )
 
-type alias TransferFunction = NeuralSignal -> NeuralSignal
+type TransferFunction
+  = Hardlim
+  | Hardlims
+  | Purelin
+  | Satlin
+  | Satlins
+  | Logsig
+  | Tansig
+  | Poslin
+  
+apply : TransferFunction -> NeuralSignal -> NeuralSignal
+apply transferFunction =
+  case transferFunction of
+    Hardlim -> hardlim
+    Hardlims -> hardlims
+    Purelin -> purelin
+    Satlin -> satlin
+    Satlins -> satlins
+    Logsig -> logsig
+    Tansig -> tansig
+    Poslin -> poslin
 
-hardlim : TransferFunction
+hardlim : NeuralSignal -> NeuralSignal
 hardlim n = 
   if n < 0.0 then
     0.0
   else
     1.0
     
-hardlims : TransferFunction
+hardlims : NeuralSignal -> NeuralSignal
 hardlims n =
   if n < 0.0 then
     -1.0
   else
     1.0
     
-purelin : TransferFunction
+purelin : NeuralSignal -> NeuralSignal
 purelin n = n
 
-satlin : TransferFunction
+satlin : NeuralSignal -> NeuralSignal
 satlin n =
   if n < 0.0 then
     0.0
@@ -40,7 +53,7 @@ satlin n =
   else
     1.0
     
-satlins : TransferFunction
+satlins : NeuralSignal -> NeuralSignal
 satlins n =
   if n < -1.0 then
     -1.0
@@ -49,13 +62,13 @@ satlins n =
   else
     1.0
     
-logsig : TransferFunction
+logsig : NeuralSignal -> NeuralSignal
 logsig n = 1.0 / (1.0 + e^(-n))
 
-tansig : TransferFunction
+tansig : NeuralSignal -> NeuralSignal
 tansig n = (e^n - e^(-n)) / (e^n + e^(-n))
 
-poslin : TransferFunction
+poslin : NeuralSignal -> NeuralSignal
 poslin n =
   if n < 0.0 then
     0.0

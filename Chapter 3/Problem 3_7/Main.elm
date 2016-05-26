@@ -9,15 +9,15 @@ hamming : NeuralSignals -> { firstLayerOutput: NeuralSignals, secondLayerOutputs
 hamming input =
   let
     firstLayer =
-      [ Neuron [ 1.0, 1.0 ] 2.0 TransferFunction.purelin
-      , Neuron [ -1.0, -1.0 ] 2.0 TransferFunction.purelin 
-      , Neuron [ -1.0, 1.0 ] 2.0 TransferFunction.purelin
+      [ Neuron [ 1.0, 1.0 ] 2.0 TransferFunction.Purelin
+      , Neuron [ -1.0, -1.0 ] 2.0 TransferFunction.Purelin 
+      , Neuron [ -1.0, 1.0 ] 2.0 TransferFunction.Purelin
       ]
       
     secondLayer =
-      [ Neuron [ 1.0, -0.2, -0.2 ] 0.0 TransferFunction.poslin
-      , Neuron [ -0.2, 1.0, -0.2 ] 0.0 TransferFunction.poslin
-      , Neuron [ -0.2, -0.2, 1.0 ] 0.0 TransferFunction.poslin
+      [ Neuron [ 1.0, -0.2, -0.2 ] 0.0 TransferFunction.Poslin
+      , Neuron [ -0.2, 1.0, -0.2 ] 0.0 TransferFunction.Poslin
+      , Neuron [ -0.2, -0.2, 1.0 ] 0.0 TransferFunction.Poslin
       ]
     
     firstLayerOutput = Layer.act input firstLayer

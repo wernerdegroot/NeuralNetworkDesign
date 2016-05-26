@@ -41,4 +41,4 @@ act neuralSignals (Neuron weights bias transferFunction) =
     weightedInput = applyWeights neuralSignals weights
     summerOutput = sum weightedInput + bias
   in
-    transferFunction summerOutput
+    TransferFunction.apply transferFunction summerOutput

@@ -12,7 +12,7 @@ type alias IsBanana = Bool
 perceptron : Shape -> Texture -> Weight -> IsBanana
 perceptron shape texture weight =
   let
-    neuron = Neuron [ 0.0, 1.0, -1.0 ] 0.0 TransferFunction.hardlims
+    neuron = Neuron [ 0.0, 1.0, -1.0 ] 0.0 TransferFunction.Hardlims
     neuronOutput = Neuron.act [ shape, texture, weight ] neuron
   in
     neuronOutput == 1.0
@@ -21,13 +21,13 @@ hamming : Shape -> Texture -> Weight -> IsBanana
 hamming shape texture weight =
   let
     firstLayer =
-      [ Neuron [ -1.0, 1.0, -1.0 ] 3.0 TransferFunction.purelin
-      , Neuron [ -1.0, -1.0, 1.0 ] 3.0 TransferFunction.purelin 
+      [ Neuron [ -1.0, 1.0, -1.0 ] 3.0 TransferFunction.Purelin
+      , Neuron [ -1.0, -1.0, 1.0 ] 3.0 TransferFunction.Purelin 
       ]
       
     secondLayer =
-      [ Neuron [ 1.0, -0.5 ] 0.0 TransferFunction.poslin
-      , Neuron [ -0.5, 1.0 ] 0.0 TransferFunction.poslin
+      [ Neuron [ 1.0, -0.5 ] 0.0 TransferFunction.Poslin
+      , Neuron [ -0.5, 1.0 ] 0.0 TransferFunction.Poslin
       ]
     
     firstLayerOutput = Layer.act [ shape, texture, weight ] firstLayer
@@ -42,9 +42,9 @@ hopfield : Shape -> Texture -> Weight -> IsBanana
 hopfield shape texture weight =
   let
     layer =
-      [ Neuron [ 0.2, 0.0, 0.0 ] -0.9 TransferFunction.satlins
-      , Neuron [ 0.0, 1.2, 0.0 ] 0.0 TransferFunction.satlins
-      , Neuron [ 0.0, -1.2, 0.0 ] 0.0 TransferFunction.satlins
+      [ Neuron [ 0.2, 0.0, 0.0 ] -0.9 TransferFunction.Satlins
+      , Neuron [ 0.0, 1.2, 0.0 ] 0.0 TransferFunction.Satlins
+      , Neuron [ 0.0, -1.2, 0.0 ] 0.0 TransferFunction.Satlins
       ]
     
     layerOutput = Layer.convergeRecurrent [ shape, texture, weight ] layer
