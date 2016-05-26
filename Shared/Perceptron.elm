@@ -1,4 +1,4 @@
-module Perceptron exposing ( adjustNeuron, adjustLayer, adjustLayerForAll )
+module Perceptron exposing ( adjustNeuron, adjustLayer, adjustLayerForAll, train )
 
 import Neuron exposing ( Neuron(..), Weights, Bias )
 import NeuralSignal exposing ( NeuralSignal, NeuralSignals )
@@ -18,6 +18,8 @@ multiplyBias : Float -> Bias -> Bias
 multiplyBias = (*)
 
 -- Other:
+
+-- Adjust a single neuron for a single input and expected output.
 adjustNeuron : NeuralSignals -> NeuralSignal -> Neuron -> Neuron
 adjustNeuron input expectedOutput neuron =
   let
@@ -33,12 +35,14 @@ adjustNeuron input expectedOutput neuron =
   in
     Neuron adjustedWeights adjustedBias transferFunction
     
+-- Adjust a layer of neurons for a single input and expected output.
 adjustLayer : NeuralSignals -> NeuralSignals -> Layer -> Layer
 adjustLayer input expectedOutput neurons =
   List.map2 (adjustNeuron input) expectedOutput neurons
   
 type alias InputAndExpectedOutput = { input: NeuralSignals, expectedOutput: NeuralSignals } 
   
+-- Adjust a layer of neurons for a list of inputs and expected outputs.
 adjustLayerForAll : List InputAndExpectedOutput -> Layer -> Layer
 adjustLayerForAll inputsAndExpectedOutputs neurons =
   let
@@ -46,3 +50,17 @@ adjustLayerForAll inputsAndExpectedOutputs neurons =
     adjustForInputAndExpectedOutput { input, expectedOutput } acc = adjustLayer input expectedOutput acc 
   in
     List.foldl adjustForInputAndExpectedOutput neurons inputsAndExpectedOutputs
+    
+hasConverged : Layer -> Layer -> Bool
+hasConverged = (==)
+
+-- Train a perceptron network (until it has converged).
+train : List InputAndExpectedOutput -> Layer -> Layer
+train inputsAndExpectedOutputs neurons =
+  let
+    adjustedNeurons = adjustLayerForAll inputsAndExpectedOutputs neurons
+  in
+    if hasConverged neurons adjustedNeurons then
+      neurons
+    else
+      train inputsAndExpectedOutputs adjustedNeurons
